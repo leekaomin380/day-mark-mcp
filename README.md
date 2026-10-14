@@ -14,24 +14,31 @@ The Mac app has a **built-in MCP (Model Context Protocol) endpoint**, so AI agen
 
 ## Connect (Mac)
 
-1. Open **Day Mark → Settings → AI Agents**, turn on **Allow AI agents (MCP)**.
-2. Click **Copy Claude Code setup command** and run it in Terminal. It looks like:
-
-   ```bash
-   claude mcp add --scope user --transport http daymark http://127.0.0.1:47731/mcp \
-     --header "Authorization: Bearer <your-token>"
-   ```
-
+1. Open **Day Mark → Settings → AI Agents** and turn on **Allow AI agents (MCP)**.
+2. Under **Copy setup for**, pick your app. Day Mark copies the right config for it, **with your access token filled in**, and tells you where to paste it.
 3. Optional: turn on **Open at login** so the endpoint is always available.
 
-Any MCP client that supports the **Streamable HTTP** transport with a custom `Authorization` header can connect the same way.
+The formats Day Mark generates (shown here with `<token>`):
+
+| App | Where | Format |
+|---|---|---|
+| Claude Code | Terminal | `claude mcp add --scope user --transport http daymark http://127.0.0.1:47731/mcp --header "Authorization: Bearer <token>"` |
+| Gemini CLI | Terminal | `gemini mcp add -s user --transport http --header "Authorization: Bearer <token>" daymark http://127.0.0.1:47731/mcp` |
+| Cursor | `~/.cursor/mcp.json` | `{"mcpServers":{"daymark":{"url":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
+| VS Code | *MCP: Open User Configuration* | `{"servers":{"daymark":{"type":"http","url":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
+| Windsurf | `~/.config/devin/mcp_config.json` | `{"mcpServers":{"daymark":{"serverUrl":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
+| Codex | `~/.codex/config.toml` | `[mcp_servers.daymark]` · `url = "http://127.0.0.1:47731/mcp"` · `http_headers = { Authorization = "Bearer <token>" }` |
+| Claude Desktop | `~/Library/Application Support/Claude/claude_desktop_config.json` | stdio bridge via [`mcp-remote`](https://github.com/geelen/mcp-remote) (needs Node.js): `{"mcpServers":{"daymark":{"command":"npx","args":["-y","mcp-remote","http://127.0.0.1:47731/mcp","--header","Authorization:${AUTH_HEADER}"],"env":{"AUTH_HEADER":"Bearer <token>"}}}}` |
+| Others (WorkBuddy, Cherry Studio, CodeBuddy…) | the app's MCP JSON import | `{"mcpServers":{"daymark":{"type":"http","url":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
+
+Verified end to end on 2026-10-14: Claude Code, Gemini CLI, and the Claude Desktop bridge (`mcp-remote` 0.14.3). The other formats follow each app's official documentation.
 
 | | |
 |---|---|
 | Endpoint | `http://127.0.0.1:47731/mcp` |
 | Transport | MCP Streamable HTTP (stateless; JSON responses, no SSE) |
 | Protocol versions | `2025-06-18`, `2025-03-26`, `2024-11-05` |
-| Auth | `Authorization: Bearer <token>` (token stored in the macOS Keychain; resettable in Settings) |
+| Auth | `Authorization: Bearer <token>` (scheme is case-insensitive; token stored in the macOS Keychain, resettable in Settings) |
 
 ## Tools
 
