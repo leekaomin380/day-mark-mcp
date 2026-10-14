@@ -52,7 +52,7 @@ Full contract: [`docs/protocol.md`](docs/protocol.md).
 ## Trust model
 
 - **Every write carries its source** (`app`, `shortcut`, `agent`). Tasks an agent completes show *“By agent”* in the day's record; notes it writes show *“Written by agent”*.
-- **Agents can only delete what they created.** Anything you wrote yourself returns `forbidden`.
+- **Agents can only delete — or rewrite the text of — what they created.** Your own tasks can be planned, starred or moved, but their title and note stay yours.
 - Completing is idempotent — a retrying agent never creates duplicate “done” records.
 - Agents cannot set reminders or edit your journal entries.
 

@@ -53,7 +53,7 @@ Only days with activity are returned. A task completed and un-completed on the s
 
 **`daymark_add_task`** — `title` (required, ≤ 500); `note` (≤ 10 000); `listId` (default list if omitted); `plannedDate`; `starred` → `{ "task": Task }`
 
-**`daymark_update_task`** — `id` (required) plus any of `title`, `note`, `listId`, `plannedDate`, `starred`. Omit a field to leave it unchanged; `null` clears `note` or `plannedDate`. All arguments are validated before anything is written. → `{ "task": Task }`
+**`daymark_update_task`** — `id` (required) plus any of `title`, `note`, `listId`, `plannedDate`, `starred`. Omit a field to leave it unchanged; `null` clears `note` or `plannedDate`. All arguments are validated before anything is written. **`title` and `note` can only be changed on tasks an agent created**; on the user's own tasks the whole request returns `forbidden`. `plannedDate`, `starred` and `listId` can be changed on any task. → `{ "task": Task }`
 
 **`daymark_add_day_note`** — `text` (required, ≤ 10 000); `date` (default today) → `{ "note": Note }`. Shown to the user as written by an agent.
 
