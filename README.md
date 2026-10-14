@@ -29,9 +29,10 @@ The formats Day Mark generates (shown here with `<token>`):
 | Windsurf | `~/.config/devin/mcp_config.json` | `{"mcpServers":{"daymark":{"serverUrl":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
 | Codex | `~/.codex/config.toml` | `[mcp_servers.daymark]` · `url = "http://127.0.0.1:47731/mcp"` · `http_headers = { Authorization = "Bearer <token>" }` |
 | Claude Desktop | `~/Library/Application Support/Claude/claude_desktop_config.json` | stdio bridge via [`mcp-remote`](https://github.com/geelen/mcp-remote) (needs Node.js): `{"mcpServers":{"daymark":{"command":"npx","args":["-y","mcp-remote","http://127.0.0.1:47731/mcp","--header","Authorization:${AUTH_HEADER}"],"env":{"AUTH_HEADER":"Bearer <token>"}}}}` |
-| Others (WorkBuddy, Cherry Studio, CodeBuddy…) | the app's MCP JSON import | `{"mcpServers":{"daymark":{"type":"http","url":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
+| WorkBuddy | Connectors → Custom connector → Add MCP (`~/.workbuddy/mcp.json`) | `{"mcpServers":{"daymark":{"type":"streamableHttp","url":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"},"timeout":30000}}}` — confirm **Trust** on first connection |
+| Others (Cherry Studio, CodeBuddy…) | the app's MCP JSON import | `{"mcpServers":{"daymark":{"type":"http","url":"http://127.0.0.1:47731/mcp","headers":{"Authorization":"Bearer <token>"}}}}` |
 
-Verified end to end on 2026-10-14: Claude Code, Gemini CLI, and the Claude Desktop bridge (`mcp-remote` 0.14.3). The other formats follow each app's official documentation.
+Verified end to end on 2026-10-14: Claude Code, Gemini CLI, WorkBuddy 5.8.2, and the Claude Desktop bridge (`mcp-remote` 0.14.3). The other formats follow each app's official documentation.
 
 | | |
 |---|---|
